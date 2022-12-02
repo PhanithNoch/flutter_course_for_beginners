@@ -1,111 +1,118 @@
 import 'package:flutter/material.dart';
-import 'package:learning_flutter/screens/home_screen.dart';
-import 'package:learning_flutter/screens/notification_screen.dart';
-import 'package:learning_flutter/screens/profile_screen.dart';
 
 void main() {
   runApp(Home());
 }
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
-
+  Home({Key? key}) : super(key: key);
+  final darkTheme = ThemeData(
+    primarySwatch: Colors.grey,
+    primaryColor: Colors.black,
+    brightness: Brightness.dark,
+    backgroundColor: const Color(0xFF212121),
+    accentColor: Colors.white,
+    accentIconTheme: IconThemeData(color: Colors.black),
+    dividerColor: Colors.black12,
+  );
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: darkTheme,
       home: HomeScreen(),
     );
   }
 }
 
-class HomeScreen extends StatefulWidget {
-   HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  HomeScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-   int selectedIndex = 0;
-
-  List lstScreens = [
-    HomeView(),
-    NotificationScreen(),
-    ProfileScreen(),
-    Center(child: Text('Settings'),),
+  final _lstTrending = [
+    'https://www.nowtv.now.com/wp-content/uploads/2020/01/Spider-Man-No-Way-Home-Extended-Version-mobile.jpg',
+    'https://lumiere-a.akamaihd.net/v1/images/p_aladdin2019_17638_d53b09e6.jpeg',
+    'https://tafttoday.com/wp-content/uploads/2019/05/MV5BZTliNWJhM2YtNDc1MC00YTk1LWE2MGYtZmE4M2Y5ODdlNzQzXkEyXkFqcGdeQXVyMzY0MTE3NzU@._V1_-1-568x900.jpg',
+    'https://static-koimoi.akamaized.net/wp-content/new-galleries/2020/11/adipurush002.jpg'
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
-      ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            const UserAccountsDrawerHeader(
-              accountName: Text('Jonhson'),
-              accountEmail: Text('jonhshon@gmail.com'),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAAM6tPoBpw4QYM8zLSKkoeSDibO3uFqdU5g&usqp=CAU'),
-              ),
-            ),
-            ListTile(
-              onTap: () {
-
-              },
-              title: Text('Home'),
-              leading: Icon(Icons.home),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              onTap: () {},
-              title: Text('Courses'),
-              leading: Icon(Icons.video_collection_rounded),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
-            ListTile(
-              onTap: () {},
-              title: Text('Contact'),
-              leading: Icon(Icons.contact_page),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: ListTile(
-                onTap: () {},
-                title: Text('Logout'),
-                leading: Icon(Icons.logout),
-                trailing: Icon(Icons.arrow_forward_ios),
-              ),
-            ),
-          ],
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () {},
         ),
+        title: Text('Pocket TV'),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
       ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 450,
+            child: PageView.builder(
+              reverse: false,
+              // pageSnapping: false,
+              itemCount: _lstTrending.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    child: Image.network(
+                      _lstTrending[index],
+                      fit: BoxFit.cover,
+                    ));
+              },
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Text(
+                  'New Movies',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _lstTrending.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:Column(
+                        children: [
+                          SizedBox(
 
-      body: lstScreens[selectedIndex],
-
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: (index){
-         selectedIndex = index;
-         setState(() {
-
-         });
-        },
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications),label: 'Notifications'),
-          BottomNavigationBarItem(icon: Icon(Icons.person),label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings),label: 'Settings'),
+                              child: Image.network(
+                                _lstTrending[index],
+                                width: 200,
+                                height: 200,
+                                fit: BoxFit.cover,
+                              )),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Expanded(child: Text('New Movie')),
+                        ],
+                      ),),
+                );
+              },
+            ),
+          )
         ],
-
       ),
-
     );
   }
 }
