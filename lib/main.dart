@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:learning_flutter/screens/gridview_movie_screen.dart';
+import 'package:learning_flutter/screens/home_movie_screen.dart';
 import 'package:learning_flutter/screens/movie_screen.dart';
 
 void main() {
@@ -19,8 +21,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: darkTheme,
-      home: HomeScreen(),
+      // theme: darkTheme,
+      home: GridViewMovieScreen(),
     );
   }
 }
